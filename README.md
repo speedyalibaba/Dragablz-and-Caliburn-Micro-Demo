@@ -1,0 +1,2 @@
+# LinksInBeideRichtungen
+Foosball stats
