@@ -1,0 +1,20 @@
+﻿<Window x:Class="Links.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Links" MouseDown="Window_MouseDown"
+        mc:Ignorable="d" Topmost="False" ShowActivated="True"
+        ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True"
+        Title="Links" Height="200" Width="350" Background="Transparent"
+        BorderThickness="0">
+    <materialDesign:ColorZone Mode="PrimaryMid" VerticalAlignment="Stretch" CornerRadius="5">
+        <StackPanel Margin="20" VerticalAlignment="Center">
+            <TextBlock Text="Links in beide Richtungen" TextAlignment="Center" Style="{StaticResource MaterialDesignDisplay1TextBlock}" FontSize="22"/>
+            <ProgressBar IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Opacity="0" x:Name="ProgressBar"
+                         Height="32" Width="32" Margin="20" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+            <TextBlock Text="Loading ..." TextAlignment="Center" FontSize="16"/>
+        </StackPanel>
+    </materialDesign:ColorZone>
+</Window>

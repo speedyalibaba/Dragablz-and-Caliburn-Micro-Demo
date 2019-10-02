@@ -1,0 +1,73 @@
+﻿<metro:MetroWindow x:Class="Links.ShellView"
+				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				   xmlns:res="clr-namespace:Links.Localization;assembly=Links.Localization"
+				   xmlns:ctr="clr-namespace:Links.Common.Controls;assembly=Links.Common"
+				   xmlns:local="clr-namespace:Links"
+				   xmlns:cal="http://www.caliburnproject.org"
+				   xmlns:models="clr-namespace:Links.Contract.Models;assembly=Links.Contract"
+                   xmlns:wpf="clr-namespace:Links.WPF;assembly=Links.WPF"
+				   xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+				   xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+				   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+				   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+				   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+				   Background="{DynamicResource MaterialDesignPaper}"
+				   TextElement.FontWeight="Medium"
+				   TextElement.FontSize="14"
+				   mc:Ignorable="d" MinHeight="70" MinWidth="422"
+				   d:DataContext="{d:DesignInstance local:ShellViewModel, IsDesignTimeCreatable=False}"
+				   FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+				   GlowBrush="{DynamicResource AccentColorBrush}"
+                   Icon="link.ico"
+                   Closed="MetroWindow_Closed"
+                   ShowIconOnTitleBar="True"
+				   BorderThickness="0">
+    <metro:MetroWindow.LeftWindowCommands>
+		<metro:WindowCommands>
+            <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding MenuViewModel.IsMenuOpen}" x:Name="MenuToggleButton" Height="24" Width="24"/>
+		</metro:WindowCommands>
+	</metro:MetroWindow.LeftWindowCommands>
+	<metro:MetroWindow.RightWindowCommands>
+		<metro:WindowCommands>
+			<StackPanel Orientation="Horizontal">
+				<ComboBox materialDesign:HintAssist.Hint="{x:Static res:Translations.User}" Margin="5 0" Style="{StaticResource TitleBarComboBox}"
+                          ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" DisplayMemberPath="Name"/>
+				<Button cal:Message.Attach="EditUsers" ToolTip="{x:Static res:Translations.Add}" >
+					<materialDesign:PackIcon Kind="Pencil" />
+				</Button>
+			</StackPanel>
+			<ToggleButton Margin="5 0" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="Pin"
+						  IsChecked="{Binding Path=Topmost, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=TwoWay}">
+				<materialDesign:PackIcon Kind="Pin" RenderTransformOrigin=".6,.4">
+					<materialDesign:PackIcon.RenderTransform>
+						<RotateTransform Angle="45" />
+					</materialDesign:PackIcon.RenderTransform>
+				</materialDesign:PackIcon>
+				<materialDesign:ToggleButtonAssist.OnContent>
+					<materialDesign:PackIcon Kind="Pin" Margin="-9"/>
+				</materialDesign:ToggleButtonAssist.OnContent>
+			</ToggleButton>
+		</metro:WindowCommands>
+	</metro:MetroWindow.RightWindowCommands>
+    <materialDesign:DialogHost x:Name="DialogHost" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" IsOpen="{Binding IsDialogHostOpen}"
+                                   cal:Message.Attach="[Loaded] = [Action DialogHostLoaded($eventArgs)]" DialogTheme="Inherit" CloseOnClickAway="True">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <ContentControl cal:View.Model="{Binding MenuViewModel}"/>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <Grid>
+                <dockablz:Layout Name="RootLayout" InterLayoutClient="{Binding CaliburnInterLayoutClient}">
+                    <dragablz:TabablzControl x:Name="Tabs" Loaded="Tabs_Loaded">
+                        <dragablz:TabablzControl.InterTabController>
+                            <dragablz:InterTabController InterTabClient="{Binding CaliburnInterTabClient}" />
+                        </dragablz:TabablzControl.InterTabController>
+                    </dragablz:TabablzControl>
+                </dockablz:Layout>
+                <materialDesign:Snackbar MessageQueue="{Binding MainMessageQueue}" />
+            </Grid>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</metro:MetroWindow>
