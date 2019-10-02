@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Links.Common.Converters" >
+    <local:BoolToCollapsedConverter x:Key="boolToCollapsed" />
+    <local:InvertBooleanConverter x:Key="invertBooleanConverter"/>
+    <local:EmptyToCollapsedConverter x:Key="emptyToCollapsed" />
+	<local:FlagsConverter x:Key="enumFlags" />
+	<local:NullToCollapsedConverter x:Key="nullToCollapsed" />
+	<local:UpperCaseConverter x:Key="toUppercase" />
+	<local:DoubleConverter x:Key="doubleConverter" />
+    <local:ConverterParameterToDoubleConverter x:Key="converterParameterToDouble"/>
+</ResourceDictionary>

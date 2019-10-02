@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Links.WPF.NewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:res="clr-namespace:Links.Localization;assembly=Links.Localization"
+             xmlns:common="clr-namespace:Links.Common;assembly=Links.Common"
+             xmlns:local="clr-namespace:Links.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <Button x:Name="NavigateToTest1" Content="NavigateToTest1" Margin="5"/>
+            <Button x:Name="NavigateToTest2" Content="NavigateToTest2" Margin="5"/>
+        </WrapPanel>
+        <ContentControl x:Name="ActiveItem"/>
+    </Grid>
+</UserControl>

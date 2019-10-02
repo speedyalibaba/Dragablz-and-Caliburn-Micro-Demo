@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Links.WPF.EditUsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		     xmlns:res="clr-namespace:Links.Localization;assembly=Links.Localization"
+			 xmlns:cal="http://www.caliburnproject.org"
+		     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:Links.WPF"
+             xmlns:ctrls="clr-namespace:Links.Common.Controls;assembly=Links.Common"
+             mc:Ignorable="d" MinHeight="300"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance local:EditUsersViewModel, IsDesignTimeCreatable=False}">
+	<ctrls:DialogContent Header="{Binding DisplayName}">
+		<ctrls:DialogContent.Buttons>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource True}" IsDefault="False" Content="{x:Static res:Translations.Ok}" />
+            </StackPanel>
+		</ctrls:DialogContent.Buttons>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{x:Static res:Translations.Users}"/>
+            <ListView Grid.Row="1" x:Name="Users" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"
+                                       Visibility="{Binding IsEditingEnabled, Converter={StaticResource boolToCollapsed}, ConverterParameter=True}"/>
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
+                                     cal:Message.Attach="[KeyDown] = [Action EditKeyPressed($eventArgs)]"
+                                     IsReadOnly="{Binding IsEditingEnabled, Converter={StaticResource invertBooleanConverter}}"
+                                     Visibility="{Binding IsEditingEnabled, Converter={StaticResource boolToCollapsed}}"/>
+                            <Button Grid.Column="1" cal:Message.Attach="EditUser($dataContext)" Margin="5 0"
+                                    Height="24" Width="24" IsEnabled="{Binding CanSaveName}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <materialDesign:PackIcon Kind="Pencil"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="ToolTip" Value="{x:Static res:Translations.Edit}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditingEnabled}" Value="True">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <materialDesign:PackIcon Kind="Floppy"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="ToolTip" Value="{x:Static res:Translations.Save}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Grid.Column="2" cal:Message.Attach="OpenSettings($dataContext)" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                    Height="24" Width="24" Margin="0 0 5 0" ToolTip="{x:Static res:Translations.Settings}">
+                                <materialDesign:PackIcon Kind="Settings"/>
+                            </Button>
+                            <Button Grid.Column="3" cal:Message.Attach="Duplicate($dataContext)" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                    Height="24" Width="24" Margin="0 0 5 0" ToolTip="{x:Static res:Translations.Duplicate}">
+                                <materialDesign:PackIcon Kind="ContentDuplicate"/>
+                            </Button>
+                            <Button Grid.Column="4" cal:Message.Attach="DeleteUser($dataContext)" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                    Height="24" Width="24"  ToolTip="{x:Static res:Translations.Delete}">
+                                <materialDesign:PackIcon Kind="TrashCan"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="NewName" cal:Message.Attach="[KeyDown] = [Action NameKeyPressed($eventArgs)]"/>
+                <Button x:Name="AddUser" Grid.Column="1" Height="32" Width="32" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                    <materialDesign:PackIcon Kind="Add"/>
+                </Button>
+            </Grid>
+        </Grid>
+	</ctrls:DialogContent>
+</UserControl>
